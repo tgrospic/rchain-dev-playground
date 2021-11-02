@@ -1,5 +1,7 @@
 package dev_00_intro
 
+import annotation.targetName
+
 object _20_F_Monad {
 
   def runPureValuesWrapFMonad = {
@@ -15,7 +17,7 @@ object _20_F_Monad {
         * Functor: https://github.com/purescript/purescript-prelude/blob/v3.1.0/src/Data/Functor.purs#L24-L25
         *   map: (A => B) => F[A] => F[B]
         *   map = <$>
-        *   res1 = (a => a + 10) <$> aF
+        *   res1 = (_ + 10) <$> aF
         */
       def map[B](f: A => B): F[B] = F(() => f(v()))
 
@@ -37,6 +39,8 @@ object _20_F_Monad {
       def flatMap[B](f: A => F[B]): F[B] = f(v())
     }
 
+    // Pure values with effects (printing to console)
+
     val aF: F[String] = F(() =>
       println(s"Get value a")
       "a"
@@ -46,6 +50,8 @@ object _20_F_Monad {
       println(s"Get value b")
       "b"
     )
+
+    // Expressions assigned to a variable
 
     /**
       * `for` comprehension syntax can be used because F type defines `map` and `flatMap` functions.
@@ -57,6 +63,10 @@ object _20_F_Monad {
         b <- bF
       } yield a + b
 
+    /**
+      * Composing operations not depending on the results of previous operations means
+      *  we can use Applicative functor without Monad.
+      */
     val abF2 = aF.app(bF.map(b => a => a + b))
 
     println(s"Result value `abF` twice = ${abF1.v() + abF2.v()}   // effects executed twice when used")

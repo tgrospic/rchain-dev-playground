@@ -18,6 +18,8 @@ object _10_F_context {
       "b"
     }
 
+    // Expressions assigned to a variable
+
     val ab1 = a + b
 
     val ab2 = a + b
@@ -25,7 +27,7 @@ object _10_F_context {
     // Any new access to `a` and `b` cannot produce effects
     val ab3 = a + b
 
-    println(s"Result value `ab` twice = ${ab1 + ab2}   // effects executed only once when value is defined")
+    println(s"Result value `ab` twice = ${ab1 + ab2}   // effects executed only once when value is defined and assigned")
   }
 
   // Value is wrapped in a function, so getting the value each time produces its effects
@@ -47,6 +49,8 @@ object _10_F_context {
       println(s"Get value b")
       "b"
     }
+
+    // Expressions assigned to a variable
 
     val abF1 = () => aF() + bF()
 
@@ -75,6 +79,8 @@ object _10_F_context {
       println(s"Get value b")
       "b"
     )
+
+    // Expressions assigned to a variable
 
     val abF1: F[String] = F(() => aF.v() + bF.v())
 
